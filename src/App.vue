@@ -14,12 +14,12 @@
 
       <div class="card weather-load" v-if="loading">Loading...</div>
 
+      <div class="card" v-if="error">Error</div>
+
       <div
         class="weather-info"
         v-show="!error && location && temperature !== null && description"
       >
-        <div class="card" v-if="error">Error</div>
-
         <div class="weather-info__text">
           <p class="card">{{ location }}</p>
           <p class="card">{{ temperature }}°C</p>
