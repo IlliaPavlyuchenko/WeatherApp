@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+
+// Variables
+$font: "Manrope", sans-serif;
+$accent: #12c0dd;
+$accent-rgb: rgb(18, 192, 221);
+$white: #fff;
+$border-radius: 10px;
+$width-line: 2px;
+$tr: 0.3s;
+
+// Base
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font;
+  height: 100%;
+}
+
+body,
+html {
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: 1fr 100px 200px;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+input,
+button {
+  font-family: $font;
+}
+
+#app {
+  height: 100%;
+}
+
+// Weather
+.weather {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  & div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.weather-bg__img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0;
+  transition: $tr ease-in-out;
+}
+
+.weather .weather-bg__img.bg {
+  opacity: 1;
+}
+
+.weather.sunny .weather-bg__img:not(.sunny) {
+  opacity: 0;
+}
+
+.weather.sunny .weather-bg__img.sunny {
+  opacity: 1;
+}
+
+.weather.partly-cloudy .weather-bg__img:not(.partly-cloudy) {
+  opacity: 0;
+}
+
+.weather.partly-cloudy .weather-bg__img.partly-cloudy {
+  opacity: 1;
+}
+
+.weather.overcast .weather-bg__img:not(.overcast) {
+  opacity: 0;
+}
+
+.weather.overcast .weather-bg__img.overcast {
+  opacity: 1;
+}
+
+.card {
+  background-color: $white;
+  border-radius: $border-radius;
+  padding: 20px 30px;
+  box-sizing: border-box;
+}
+
+.weather-form {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.weather-form__input {
+  flex-grow: 1;
+  border: $width-line solid rgba($accent-rgb, 0.3);
+  border-radius: $border-radius;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  transition: $tr;
+
+  &:focus {
+    outline: none;
+    border-color: $accent;
+  }
+}
+
+.weather-form__btn {
+  flex-basis: 180px;
+  font-size: 20px;
+  background-color: rgba($accent-rgb, 0.3);
+  border: none;
+  border-radius: $border-radius;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: $tr;
+
+  &:hover {
+    background-color: $accent;
+  }
+}
+
+.weather-form,
+.weather-load,
+.weather-info {
+    grid-column: 1 / 4;
+}
+
+.weather-load {
+    display: flex;
+    align-items: center;
+    height: 87px;
+}
+
+.weather-info__text {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 20px;
+    font-size: 40px;
+}
