@@ -114,7 +114,7 @@ const transliterate = (text) => {
   return text
     .toLowerCase()
     .split("")
-    .map((char) => map[char] || char)
+    .map((char) => map[char] ?? char)
     .join("");
 };
 
