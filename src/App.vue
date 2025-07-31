@@ -73,7 +73,7 @@ const loading = ref(false);
 const error = ref(false);
 const language = ref("en");
 
-// Простий мапінг для транслітерації українських букв
+// Simple mapping for transliteration of Ukrainian letters
 const transliterate = (text) => {
   const map = {
     а: "a",
@@ -135,7 +135,7 @@ const weatherSearch = async () => {
   error.value = false;
 
   try {
-    // Якщо мова українська — транслітеруємо запит
+    // If language is Ukrainian — transliterate query
     const query =
       language.value === "uk"
         ? transliterate(searchQuery.value)
@@ -161,6 +161,7 @@ const weatherSearch = async () => {
   }
 };
 
+// Localized UI text for supported languages
 const translations = {
   en: {
     placeholder: "Enter city",
@@ -171,6 +172,8 @@ const translations = {
     search: "Пошук",
   },
 };
+
+// Reactive computed value for current language translations
 const t = computed(() => translations[language.value]);
 
 // Reset search input
