@@ -45,6 +45,24 @@ button {
   height: 100%;
 }
 
+.language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+
+  select {
+    padding: 6px 10px;
+    border-radius: $border-radius;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  option {
+    background: #ccc;
+  }
+}
+
 // Weather
 .weather {
   width: 100%;
@@ -160,19 +178,26 @@ button {
 
 .weather-form,
 .weather-load,
-.weather-info {
-    grid-column: 1 / 4;
+.weather-info,
+.weather-error {
+  grid-column: 1 / 4;
 }
 
 .weather-load {
-    display: flex;
-    align-items: center;
-    height: 87px;
+  display: flex;
+  align-items: center;
+  height: 87px;
+}
+
+.weather-error {
+  display: flex;
+  align-items: center;
+  height: 60px;
 }
 
 .weather-info__text {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 20px;
-    font-size: 40px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  font-size: 40px;
 }

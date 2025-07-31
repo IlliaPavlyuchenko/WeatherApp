@@ -1,20 +1,26 @@
 <template>
   <div class="weather" :class="weatherClass">
     <div class="container">
+      <div class="language-switcher">
+        <select v-model="language">
+          <option value="en">EN</option>
+          <option value="uk">UA</option>
+        </select>
+      </div>
       <div class="card weather-form">
         <input
           type="text"
           class="weather-form__input"
           v-model="searchQuery"
           @keyup.enter="weatherSearch"
-          placeholder="Enter city"
+          :placeholder="t.placeholder"
         />
-        <button class="weather-form__btn" @click="weatherSearch">Search</button>
+        <button class="weather-form__btn" @click="weatherSearch">{{ t.search }}</button>
       </div>
 
       <div class="card weather-load" v-if="loading">Loading...</div>
 
-      <div class="card" v-if="error">Error</div>
+      <div class="card weather-error" v-if="error">Error</div>
 
       <div
         class="weather-info"
@@ -65,13 +71,60 @@ const temperature = ref(null);
 const description = ref("");
 const loading = ref(false);
 const error = ref(false);
+const language = ref("en");
 
+// Простий мапінг для транслітерації українських букв
+const transliterate = (text) => {
+  const map = {
+    а: "a",
+    б: "b",
+    в: "v",
+    г: "h",
+    ґ: "g",
+    д: "d",
+    е: "e",
+    є: "ye",
+    ж: "zh",
+    з: "z",
+    и: "y",
+    і: "i",
+    ї: "yi",
+    й: "y",
+    к: "k",
+    л: "l",
+    м: "m",
+    н: "n",
+    о: "o",
+    п: "p",
+    р: "r",
+    с: "s",
+    т: "t",
+    у: "u",
+    ф: "f",
+    х: "kh",
+    ц: "ts",
+    ч: "ch",
+    ш: "sh",
+    щ: "shch",
+    ю: "yu",
+    я: "ya",
+    ь: "",
+    "'": "",
+  };
+  return text
+    .toLowerCase()
+    .split("")
+    .map((char) => map[char] || char)
+    .join("");
+};
 
 // Return background class based on weather description
 const weatherClass = computed(() => {
-  if (description.value.includes("Sunny")) return "sunny";
-  if (description.value.includes("Overcast")) return "overcast";
-  if (description.value.includes("Partly Cloudy")) return "partly-cloudy";
+  const desc = description.value.toLowerCase();
+  if (desc.includes("sunny") || desc.includes("сонячно")) return "sunny";
+  if (desc.includes("overcast") || desc.includes("похмуро")) return "overcast";
+  if (desc.includes("partly cloudy") || desc.includes("невелика хмарність"))
+    return "partly-cloudy";
   return "";
 });
 
@@ -82,9 +135,15 @@ const weatherSearch = async () => {
   error.value = false;
 
   try {
+    // Якщо мова українська — транслітеруємо запит
+    const query =
+      language.value === "uk"
+        ? transliterate(searchQuery.value)
+        : searchQuery.value;
+
     const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(
-      searchQuery.value
-    )}&aqi=no`;
+      query
+    )}&aqi=no&lang=${language.value}`;
     const res = await fetch(url);
     const data = await res.json();
 
@@ -102,8 +161,20 @@ const weatherSearch = async () => {
   }
 };
 
+const translations = {
+  en: {
+    placeholder: "Enter city",
+    search: "Search",
+  },
+  uk: {
+    placeholder: "Введіть місто",
+    search: "Пошук",
+  },
+};
+const t = computed(() => translations[language.value]);
+
 // Reset search input
 const resetSearchQuery = () => {
-  searchQuery.value = '';
+  searchQuery.value = "";
 };
 </script>
