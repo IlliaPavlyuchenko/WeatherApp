@@ -15,7 +15,9 @@
           @keyup.enter="weatherSearch"
           :placeholder="t.placeholder"
         />
-        <button class="weather-form__btn" @click="weatherSearch">{{ t.search }}</button>
+        <button class="weather-form__btn" @click="weatherSearch">
+          {{ t.search }}
+        </button>
       </div>
 
       <div class="card weather-load" v-if="loading">Loading...</div>
@@ -39,21 +41,20 @@
         src="./assets/bg.jpg"
         alt="App Background"
       />
+      <img class="weather-bg__img sunny" src="./assets/sunny.jpg" alt="Sunny" />
       <img
-        class="weather-bg__img overcast"
-        src="./assets/overcast.jpg"
-        alt="App Background"
+        class="weather-bg__img nightClear"
+        src="./assets/night.jpg"
+        alt="Night Clear"
       />
       <img
-        class="weather-bg__img partly-cloudy"
-        src="./assets/partly-cloudy.jpg"
-        alt="App Background"
+        class="weather-bg__img cloudy"
+        src="./assets/cloudy.jpg"
+        alt="Cloudy"
       />
-      <img
-        class="weather-bg__img sunny"
-        src="./assets/sunny.jpg"
-        alt="App Background"
-      />
+      <img class="weather-bg__img rain" src="./assets/rain.jpg" alt="Rain" />
+      <img class="weather-bg__img snow" src="./assets/snow.jpg" alt="Snow" />
+      <img class="weather-bg__img fog" src="./assets/fog.jpg" alt="Fog" />
     </div>
   </div>
 </template>
@@ -118,13 +119,32 @@ const transliterate = (text) => {
     .join("");
 };
 
-// Return background class based on weather description
+// Weather condition groups with support for both English and Ukrainian
+const weatherGroups = {
+  sunny: ["sunny", "сонячно"],
+  nightClear: ["clear", "ясно"],
+  cloudy: [
+    "cloudy",
+    "хмарно",
+    "похмуро",
+    "overcast",
+    "partly cloudy",
+    "невелика хмарність",
+    "хмарність",
+  ],
+  rain: ["rain", "дощ", "shower", "гроза", "thunder", "drizzle", "мряка"],
+  snow: ["snow", "сніг", "blizzard", "freezing"],
+  fog: ["fog", "mist", "туман", "haze"],
+};
+
+// Compute CSS background class based on weather description
 const weatherClass = computed(() => {
   const desc = description.value.toLowerCase();
-  if (desc.includes("sunny") || desc.includes("сонячно")) return "sunny";
-  if (desc.includes("overcast") || desc.includes("похмуро")) return "overcast";
-  if (desc.includes("partly cloudy") || desc.includes("невелика хмарність"))
-    return "partly-cloudy";
+  for (const [className, keywords] of Object.entries(weatherGroups)) {
+    if (keywords.some((k) => desc.includes(k))) {
+      return className;
+    }
+  }
   return "";
 });
 

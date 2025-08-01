@@ -59,7 +59,7 @@ button {
     cursor: pointer;
   }
   option {
-    background: #ccc;
+    background: #cccccc;
   }
 }
 
@@ -117,19 +117,39 @@ button {
   opacity: 1;
 }
 
-.weather.partly-cloudy .weather-bg__img:not(.partly-cloudy) {
+.weather.nightClear .weather-bg__img:not(.nightClear) {
   opacity: 0;
 }
 
-.weather.partly-cloudy .weather-bg__img.partly-cloudy {
+.weather.nightClear .weather-bg__img.nightClear {
   opacity: 1;
 }
-
-.weather.overcast .weather-bg__img:not(.overcast) {
+.weather.cloudy .weather-bg__img:not(.cloudy) {
   opacity: 0;
 }
 
-.weather.overcast .weather-bg__img.overcast {
+.weather.cloudy .weather-bg__img.cloudy {
+  opacity: 1;
+}
+.weather.rain .weather-bg__img:not(.rain) {
+  opacity: 0;
+}
+
+.weather.rain .weather-bg__img.rain {
+  opacity: 1;
+}
+.weather.snow .weather-bg__img:not(.snow) {
+  opacity: 0;
+}
+
+.weather.snow .weather-bg__img.snow {
+  opacity: 1;
+}
+.weather.fog .weather-bg__img:not(.fog) {
+  opacity: 0;
+}
+
+.weather.fog .weather-bg__img.fog {
   opacity: 1;
 }
 
